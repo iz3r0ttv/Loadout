@@ -571,6 +571,11 @@
   const resultsCount = document.getElementById("results-count");
   const buttons = document.querySelectorAll(".filter-btn");
 
+  const AFFILIATE_TAG = "z3r0sloadout-20";
+  function amazonLink(name) {
+    return `https://www.amazon.com/s?k=${encodeURIComponent(name)}&tag=${AFFILIATE_TAG}`;
+  }
+
   function renderCard(p, index) {
     const card = document.createElement("article");
     card.className = "card";
@@ -585,7 +590,7 @@
       <p class="card-spec">${p.spec}</p>
       <div class="card-bottom">
         <span class="card-price">${p.price}</span>
-        <a class="card-link" href="${p.url}" rel="sponsored noopener" target="_blank">View deal</a>
+        <a class="card-link" href="${amazonLink(p.name)}" rel="sponsored noopener" target="_blank">View deal</a>
       </div>
       ${p.alt ? `
       <div class="card-alt">
@@ -593,7 +598,7 @@
           <span class="badge budget">$ Budget Pick</span>
           <span class="alt-price">${p.alt.price}</span>
         </div>
-        <a class="alt-link" href="${p.alt.url || '#'}" rel="sponsored noopener" target="_blank">${p.alt.name} →</a>
+        <a class="alt-link" href="${amazonLink(p.alt.name)}" rel="sponsored noopener" target="_blank">${p.alt.name} →</a>
         <p class="alt-note">Trade-off: ${p.alt.note}</p>
       </div>` : ""}
     `;
