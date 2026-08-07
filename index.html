@@ -28,6 +28,7 @@
     --cat-lighting: #f6c445;
     --cat-peripherals: #e8698a;
     --cat-desk: #a8623f;
+    --cat-supplements: #e8484f;
 
     --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
     --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -191,6 +192,15 @@
     max-width: 60ch;
     margin: 0;
     font-size: 1rem;
+  }
+  .hero-tagline {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--cat-supplements);
+    margin: 14px 0 0;
+    padding-left: 12px;
+    border-left: 2px solid var(--cat-supplements);
   }
 
   main {
@@ -481,7 +491,8 @@
   <div class="hero-bracket br" aria-hidden="true"></div>
   <div class="hero-content">
     <h1>Streaming and gaming setups, picked by someone who streams.</h1>
-    <p>Every item below is gear on our own desk, filterable by category. Each one also lists a more affordable alternative for anyone building a setup on a budget.</p>
+    <p>Every item below is gear on our own desk, filterable by category. Most also list a more affordable alternative for anyone building a setup on a budget.</p>
+    <p class="hero-tagline">Supplements that help stay on your game.</p>
   </div>
 </section>
 
@@ -493,6 +504,7 @@
     <button class="filter-btn" data-filter="lighting" aria-pressed="false" style="--dot: var(--cat-lighting)"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2a4.2 4.2 0 0 1 2.4 7.6c-.5.4-.8 1-.8 1.6v.3H6.4v-.3c0-.6-.3-1.2-.8-1.6A4.2 4.2 0 0 1 8 2Z"/><path d="M6.5 13.5h3M7 15h2"/></svg>Lighting</button>
     <button class="filter-btn" data-filter="peripherals" aria-pressed="false" style="--dot: var(--cat-peripherals)"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.5" y="4.5" width="13" height="7.5" rx="1.4"/><path d="M4 7.5h.01M6.5 7.5h.01M9 7.5h.01M11.5 7.5h.01M5 10h6"/></svg>Peripherals</button>
     <button class="filter-btn" data-filter="desk" aria-pressed="false" style="--dot: var(--cat-desk)"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="9" height="6.5" rx="1.2"/><path d="M6.5 9.5V12M4.5 13.5h4M11 5.5h3M14 5.5v3"/></svg>Desk</button>
+    <button class="filter-btn" data-filter="supplements" aria-pressed="false" style="--dot: var(--cat-supplements)"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 2h3v2.2l1.5 1.3v7a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-7l1.5-1.3V2Z"/><path d="M6.5 2h3"/><circle cx="8" cy="9" r="0.8" fill="currentColor" stroke="none"/></svg>Supplements</button>
   </div>
 
   <p class="results-count" id="results-count" aria-live="polite"></p>
@@ -509,6 +521,12 @@
     Every "Stream-Tested" item on this page is gear we personally own and use on our own stream. The "Budget pick" listed
     under each item is a lower-cost alternative we have not personally tested — it's included based on published specs and
     review consensus, not hands-on use. Prices and availability are set by the retailer and may change after publication.
+  </p>
+  <p>
+    <strong>Supplement disclaimer:</strong> these statements have not been evaluated by the Food and Drug Administration.
+    Products in the Supplements category are not intended to diagnose, treat, cure, or prevent any disease. Consult a
+    physician before starting any new supplement, especially if you are pregnant, nursing, taking medication, or have a
+    medical condition.
   </p>
 </section>
 
@@ -547,6 +565,12 @@
       alt: { name: "Elgato Stream Deck MK.2", price: "$149.99", note: "15 keys instead of 32, more folder-diving" } },
     { name: "ARES WING Dual Monitor Arm", cat: "desk", spec: "Gas-spring full-motion arm, up to 44lb capacity, integrated USB-A/C charging", price: "Check current price", tested: true, url: "#",
       alt: { name: "WALI GSMP002N", price: "$29.99", note: "lower weight capacity, no charging ports" } },
+
+    { name: "BodyHealth Perfect Amino", cat: "supplements", spec: "Essential amino acid tablets, ~99% utilization, supports muscle recovery", price: "Check current price", tested: true, url: "#" },
+    { name: "Cayenne Pepper Softgels (12-in-1)", cat: "supplements", spec: "With Vitamins D3, K2 & E, hawthorn, beetroot & turmeric, 240 capsules", price: "Check current price", tested: true, url: "#", asin: "B0G1S2LJSY" },
+    { name: "Vital Nutritive Nitric Oxide", cat: "supplements", spec: "L-Arginine + L-Citrulline for blood flow, energy & workout performance", price: "Check current price", tested: true, url: "#", asin: "B0DMPDGQMW" },
+    { name: "Nutricost Pre-X Xtreme Pre-Workout (Blue Raspberry)", cat: "supplements", spec: "60 servings, vegetarian, GMO-free & gluten-free complex powder", price: "Check current price", tested: true, url: "#", asin: "B07XFPV56W" },
+    { name: "Cutler Nutrition Liquid L-Carnitine (Watermelon)", cat: "supplements", spec: "16 fl oz, triple-form liquid carnitine for energy & metabolism support", price: "Check current price", tested: true, url: "#", asin: "B0F561RBCQ" },
   ];
 
   const categoryColors = {
@@ -555,6 +579,7 @@
     lighting: "var(--cat-lighting)",
     peripherals: "var(--cat-peripherals)",
     desk: "var(--cat-desk)",
+    supplements: "var(--cat-supplements)",
   };
 
   const iconAttrs = 'viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
@@ -564,6 +589,7 @@
     lighting: `<svg ${iconAttrs}><path d="M8 2a4.2 4.2 0 0 1 2.4 7.6c-.5.4-.8 1-.8 1.6v.3H6.4v-.3c0-.6-.3-1.2-.8-1.6A4.2 4.2 0 0 1 8 2Z"/><path d="M6.5 13.5h3M7 15h2"/></svg>`,
     peripherals: `<svg ${iconAttrs}><rect x="1.5" y="4.5" width="13" height="7.5" rx="1.4"/><path d="M4 7.5h.01M6.5 7.5h.01M9 7.5h.01M11.5 7.5h.01M5 10h6"/></svg>`,
     desk: `<svg ${iconAttrs}><rect x="2" y="3" width="9" height="6.5" rx="1.2"/><path d="M6.5 9.5V12M4.5 13.5h4M11 5.5h3M14 5.5v3"/></svg>`,
+    supplements: `<svg ${iconAttrs}><path d="M6.5 2h3v2.2l1.5 1.3v7a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-7l1.5-1.3V2Z"/><path d="M6.5 2h3"/><circle cx="8" cy="9" r="0.8" fill="currentColor" stroke="none"/></svg>`,
   };
 
   const grid = document.getElementById("gear-grid");
@@ -572,8 +598,11 @@
   const buttons = document.querySelectorAll(".filter-btn");
 
   const AFFILIATE_TAG = "z3r0sloadout-20";
-  function amazonLink(name) {
-    return `https://www.amazon.com/s?k=${encodeURIComponent(name)}&tag=${AFFILIATE_TAG}`;
+  function amazonLink(item) {
+    if (item.asin) {
+      return `https://www.amazon.com/dp/${item.asin}?tag=${AFFILIATE_TAG}`;
+    }
+    return `https://www.amazon.com/s?k=${encodeURIComponent(item.name)}&tag=${AFFILIATE_TAG}`;
   }
 
   function renderCard(p, index) {
@@ -584,13 +613,13 @@
     card.innerHTML = `
       <div class="card-top">
         <span class="card-cat">${categoryIcons[p.cat]}${p.cat}</span>
-        ${p.tested ? '<span class="badge">&check; Stream-Tested</span>' : ""}
+        ${p.tested ? `<span class="badge">&check; ${p.cat === "supplements" ? "In My Stack" : "Stream-Tested"}</span>` : ""}
       </div>
       <h3 class="card-name">${p.name}</h3>
       <p class="card-spec">${p.spec}</p>
       <div class="card-bottom">
         <span class="card-price">${p.price}</span>
-        <a class="card-link" href="${amazonLink(p.name)}" rel="sponsored noopener" target="_blank">View deal</a>
+        <a class="card-link" href="${amazonLink(p)}" rel="sponsored noopener" target="_blank">View deal</a>
       </div>
       ${p.alt ? `
       <div class="card-alt">
@@ -598,7 +627,7 @@
           <span class="badge budget">$ Budget Pick</span>
           <span class="alt-price">${p.alt.price}</span>
         </div>
-        <a class="alt-link" href="${amazonLink(p.alt.name)}" rel="sponsored noopener" target="_blank">${p.alt.name} →</a>
+        <a class="alt-link" href="${amazonLink(p.alt)}" rel="sponsored noopener" target="_blank">${p.alt.name} →</a>
         <p class="alt-note">Trade-off: ${p.alt.note}</p>
       </div>` : ""}
     `;
