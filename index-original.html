@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOADOUT — Streaming & Gaming Gear Picks</title>
+<style>
+  :root {
+    --bg: #0b0d12;
+    --bg-alt: #12151c;
+    --card: #171b24;
+    --border: #262b38;
+    --text: #e8eaf0;
+    --text-dim: #9aa1b2;
+    --accent: #7c5cff;
+    --accent-dim: #5a3fd6;
+    --good: #3ddc97;
+    --radius: 10px;
+    --max-width: 1180px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+
+  a { color: inherit; }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 16px;
+    z-index: 100;
+    border-radius: 0 0 8px 0;
+  }
+  .skip-link:focus { left: 0; }
+
+  /* Disclosure banner */
+  .disclosure-banner {
+    background: #1a1030;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    text-align: center;
+    padding: 8px 16px;
+  }
+  .disclosure-banner a { color: var(--accent); text-decoration: underline; }
+
+  header.site-header {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 32px 20px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .brand-mark {
+    font-weight: 800;
+    font-size: 1.6rem;
+    letter-spacing: 0.02em;
+  }
+  .brand-mark span { color: var(--accent); }
+  .brand-tagline { color: var(--text-dim); font-size: 0.9rem; }
+
+  nav.top-nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    margin-left: 22px;
+    font-size: 0.92rem;
+  }
+  nav.top-nav a:hover, nav.top-nav a:focus-visible { color: var(--text); }
+
+  .hero {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 20px 20px 40px;
+  }
+  .hero h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    margin: 0 0 12px;
+    max-width: 720px;
+  }
+  .hero p {
+    color: var(--text-dim);
+    max-width: 620px;
+    margin: 0;
+  }
+
+  main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* Filters */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .filter-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .filter-btn:hover { color: var(--text); border-color: #3a4156; }
+  .filter-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .filter-btn[aria-pressed="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .results-count {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin: -14px 0 20px;
+  }
+
+  /* Grid */
+  .gear-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 18px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .card-cat {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(61, 220, 151, 0.12);
+    color: var(--good);
+    border: 1px solid rgba(61, 220, 151, 0.35);
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .card-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .card-spec {
+    color: var(--text-dim);
+    font-size: 0.88rem;
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  .card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+
+  .card-price {
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+
+  .card-link {
+    background: var(--accent-dim);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: background 0.15s;
+  }
+  .card-link:hover, .card-link:focus-visible { background: var(--accent); }
+  .card-link:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+  .no-results {
+    color: var(--text-dim);
+    padding: 40px 0;
+    text-align: center;
+  }
+
+  /* Disclosure section */
+  .disclosure-full {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+  .disclosure-full h2 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+  .disclosure-full p {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    max-width: 720px;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 20px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.82rem;
+  }
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<div class="disclosure-banner">
+  As an affiliate, we earn from qualifying purchases at no extra cost to you. <a href="#disclosure">Learn more</a>.
+</div>
+
+<header class="site-header">
+  <div class="brand">
+    <span class="brand-mark">LOAD<span>OUT</span></span>
+    <span class="brand-tagline">gear we actually use</span>
+  </div>
+  <nav class="top-nav" aria-label="Primary">
+    <a href="#main-content">Gear</a>
+    <a href="#disclosure">Disclosure</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Streaming and gaming setups, picked by someone who streams.</h1>
+  <p>Every item below is filterable by category. Gear marked "Stream-Tested" is something we personally use on our own setup — everything else is chosen based on specs and reputation, not just because it pays a commission.</p>
+</section>
+
+<main id="main-content">
+  <div class="filter-bar" role="group" aria-label="Filter gear by category">
+    <button class="filter-btn" data-filter="all" aria-pressed="true">All</button>
+    <button class="filter-btn" data-filter="audio" aria-pressed="false">Audio</button>
+    <button class="filter-btn" data-filter="video" aria-pressed="false">Video</button>
+    <button class="filter-btn" data-filter="lighting" aria-pressed="false">Lighting</button>
+    <button class="filter-btn" data-filter="peripherals" aria-pressed="false">Peripherals</button>
+    <button class="filter-btn" data-filter="desk" aria-pressed="false">Desk</button>
+  </div>
+
+  <p class="results-count" id="results-count" aria-live="polite"></p>
+
+  <div class="gear-grid" id="gear-grid"></div>
+  <p class="no-results" id="no-results" hidden>No gear in this category yet.</p>
+</main>
+
+<section class="disclosure-full" id="disclosure">
+  <h2>Affiliate Disclosure</h2>
+  <p>
+    LOADOUT participates in affiliate programs, including Amazon Associates and other retailer/brand partner programs.
+    This means we may earn a commission when you click a link and make a qualifying purchase — at no additional cost to you.
+    We only recommend gear we believe is genuinely good for streaming and gaming setups, and "Stream-Tested" items are
+    gear we personally own and use. Prices and availability are set by the retailer and may change after publication.
+  </p>
+</section>
+
+<footer>
+  &copy; 2026 LOADOUT. This is a demo storefront — no purchases are processed on this page.
+</footer>
+
+<script>
+  const products = [
+    { name: "Wireless Gaming Headset", cat: "audio", spec: "50mm drivers, 2.4GHz + Bluetooth, 30hr battery", price: "$99.99", tested: true, url: "#" },
+    { name: "USB Condenser Microphone", cat: "audio", spec: "Cardioid pattern, plug-and-play, built-in shock mount", price: "$69.99", tested: true, url: "#" },
+    { name: "Desk Boom Arm", cat: "audio", spec: "Spring-loaded, cable channel, clamps to 2\" desk", price: "$24.99", tested: false, url: "#" },
+    { name: "1080p Streaming Webcam", cat: "video", spec: "60fps, autofocus, wide-angle lens", price: "$79.99", tested: true, url: "#" },
+    { name: "Capture Card", cat: "video", spec: "4K passthrough, 1080p60 capture, USB-C", price: "$139.99", tested: false, url: "#" },
+    { name: "Green Screen Kit", cat: "video", spec: "Collapsible, 5x7ft, wrinkle-resistant fabric", price: "$54.99", tested: false, url: "#" },
+    { name: "10\" LED Ring Light", cat: "lighting", spec: "Dimmable, tripod + phone mount included", price: "$34.99", tested: false, url: "#" },
+    { name: "Smart LED Light Bar", cat: "lighting", spec: "App-controlled, monitor-mounted, glare-free", price: "$59.99", tested: true, url: "#" },
+    { name: "RGB Backlight Strip", cat: "lighting", spec: "Bias lighting, sync with screen colors", price: "$19.99", tested: false, url: "#" },
+    { name: "Mechanical Gaming Keyboard", cat: "peripherals", spec: "Hot-swappable switches, per-key RGB", price: "$119.99", tested: true, url: "#" },
+    { name: "Wireless Gaming Mouse", cat: "peripherals", spec: "26,000 DPI sensor, 70hr battery", price: "$79.99", tested: false, url: "#" },
+    { name: "Under-Desk Cable Management Box", cat: "desk", spec: "Hides power strip + cords, wood-finish lid", price: "$28.99", tested: false, url: "#" },
+    { name: "Adjustable Monitor Arm", cat: "desk", spec: "Gas-spring, fits up to 32\" display", price: "$44.99", tested: true, url: "#" },
+  ];
+
+  const grid = document.getElementById("gear-grid");
+  const noResults = document.getElementById("no-results");
+  const resultsCount = document.getElementById("results-count");
+  const buttons = document.querySelectorAll(".filter-btn");
+
+  function renderCard(p) {
+    const card = document.createElement("article");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="card-top">
+        <span class="card-cat">${p.cat}</span>
+        ${p.tested ? '<span class="badge">✓ Stream-Tested</span>' : ""}
+      </div>
+      <h3 class="card-name">${p.name}</h3>
+      <p class="card-spec">${p.spec}</p>
+      <div class="card-bottom">
+        <span class="card-price">${p.price}</span>
+        <a class="card-link" href="${p.url}" rel="sponsored noopener" target="_blank">View deal</a>
+      </div>
+    `;
+    return card;
+  }
+
+  function render(filter) {
+    grid.innerHTML = "";
+    const items = filter === "all" ? products : products.filter(p => p.cat === filter);
+    items.forEach(p => grid.appendChild(renderCard(p)));
+    noResults.hidden = items.length !== 0;
+    resultsCount.textContent = `Showing ${items.length} item${items.length === 1 ? "" : "s"}`;
+  }
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      buttons.forEach(b => b.setAttribute("aria-pressed", "false"));
+      btn.setAttribute("aria-pressed", "true");
+      render(btn.dataset.filter);
+    });
+  });
+
+  render("all");
+</script>
+
+</body>
+</html>

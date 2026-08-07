@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOADOUT — Streaming & Gaming Gear Picks</title>
+<style>
+  :root {
+    /* Core palette — near-black ground, violet signal accent, green reserved for "tested" only */
+    --ink: #0a0c11;
+    --surface: #14161f;
+    --surface-2: #191c26;
+    --line: #262b38;
+    --line-soft: #1c2029;
+    --paper: #eceef4;
+    --paper-dim: #98a0b3;
+    --paper-faint: #5b6478;
+    --signal: #7c5cff;
+    --signal-soft: rgba(124, 92, 255, 0.14);
+    --tested: #3ddc97;
+    --tested-soft: rgba(61, 220, 151, 0.12);
+    --budget: #ff6b57;
+    --budget-soft: rgba(255, 107, 87, 0.14);
+
+    /* Category tags — each a real signal, not decoration */
+    --cat-audio: #8f74ff;
+    --cat-video: #4fb8e0;
+    --cat-lighting: #f6c445;
+    --cat-peripherals: #e8698a;
+    --cat-desk: #a8623f;
+
+    --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Code", "SFMono-Regular", "Roboto Mono", Consolas, "Liberation Mono", monospace;
+
+    --max-width: 1180px;
+    --radius-sm: 6px;
+    --radius-md: 14px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--signal);
+    color: #fff;
+    padding: 10px 16px;
+    z-index: 100;
+    border-radius: 0 0 8px 0;
+  }
+  .skip-link:focus { left: 0; }
+
+  /* Disclosure banner */
+  .disclosure-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line-soft);
+    color: var(--paper-dim);
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 9px 16px;
+  }
+  .disclosure-banner svg { flex-shrink: 0; opacity: 0.7; }
+  .disclosure-banner a { color: var(--signal); text-decoration: underline; text-underline-offset: 2px; }
+
+  header.site-header {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 36px 24px 8px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .brand { display: flex; flex-direction: column; gap: 4px; }
+  .brand-mark {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.75rem;
+    letter-spacing: -0.02em;
+  }
+  .brand-mark span { color: var(--signal); }
+  .brand-tagline {
+    font-family: var(--font-mono);
+    color: var(--paper-faint);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  nav.top-nav a {
+    color: var(--paper-dim);
+    text-decoration: none;
+    margin-left: 24px;
+    font-size: 0.88rem;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  nav.top-nav a:hover, nav.top-nav a:focus-visible { color: var(--paper); border-color: var(--signal); }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 44px 24px 52px;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 90% at 12% 20%, var(--signal-soft), transparent 60%);
+    pointer-events: none;
+  }
+  #signal-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-bracket {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .hero-bracket.tl { top: 14px; left: 14px; border-top: 1.5px solid var(--signal); border-left: 1.5px solid var(--signal); }
+  .hero-bracket.tr { top: 14px; right: 14px; border-top: 1.5px solid var(--signal); border-right: 1.5px solid var(--signal); }
+  .hero-bracket.bl { bottom: 14px; left: 14px; border-bottom: 1.5px solid var(--signal); border-left: 1.5px solid var(--signal); }
+  .hero-bracket.br { bottom: 14px; right: 14px; border-bottom: 1.5px solid var(--signal); border-right: 1.5px solid var(--signal); }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.4vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    margin: 0 0 16px;
+    max-width: 700px;
+  }
+  .hero p {
+    color: var(--paper-dim);
+    max-width: 60ch;
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 8px 24px 64px;
+  }
+
+  /* Filters */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--paper-dim);
+    padding: 8px 15px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .filter-btn svg { color: var(--dot, var(--paper-faint)); flex-shrink: 0; }
+  .filter-btn:hover { color: var(--paper); border-color: #3a4156; }
+  .filter-btn:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+  .filter-btn[aria-pressed="true"] {
+    background: var(--signal);
+    border-color: var(--signal);
+    color: #fff;
+  }
+  .filter-btn[aria-pressed="true"] svg { color: #fff; }
+
+  .results-count {
+    font-family: var(--font-mono);
+    color: var(--paper-faint);
+    font-size: 0.78rem;
+    margin: 0 0 20px;
+  }
+
+  /* Grid */
+  .gear-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(258px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    position: relative;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 20px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    overflow: hidden;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    animation: rise 0.32s ease backwards;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent-cat, var(--signal));
+  }
+  .card:hover, .card:focus-within {
+    transform: translateY(-2px);
+    border-color: #384060;
+    box-shadow: 0 10px 28px -14px rgba(124, 92, 255, 0.35);
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-cat {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--paper-dim);
+  }
+  .card-cat svg { color: var(--accent-cat, var(--signal)); flex-shrink: 0; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--tested-soft);
+    color: var(--tested);
+    border: 1px solid rgba(61, 220, 151, 0.35);
+    font-size: 0.66rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .badge.budget {
+    background: var(--budget-soft);
+    color: var(--budget);
+    border-color: rgba(255, 107, 87, 0.4);
+  }
+
+  .card-name {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: -0.005em;
+  }
+
+  .card-spec {
+    color: var(--paper-dim);
+    font-size: 0.86rem;
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  .card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .card-price {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    font-size: 1.02rem;
+  }
+
+  .card-link {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--paper);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .card-link:hover, .card-link:focus-visible {
+    background: var(--signal);
+    border-color: var(--signal);
+    color: #fff;
+  }
+  .card-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+  .card-alt {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 2px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line-soft);
+  }
+  .card-alt .alt-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .card-alt .alt-price {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    color: var(--paper-dim);
+    font-size: 0.78rem;
+  }
+  .alt-link {
+    align-self: flex-start;
+    color: var(--budget);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.83rem;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .alt-link:hover { border-color: var(--budget); }
+  .alt-link:focus-visible { outline: 2px solid var(--budget); outline-offset: 2px; border-radius: 2px; }
+  .card-alt .alt-note {
+    color: var(--paper-dim);
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 0.74rem;
+    margin: 0;
+  }
+
+  .no-results {
+    color: var(--paper-faint);
+    padding: 40px 0;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  /* Disclosure section */
+  .disclosure-full {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px 60px;
+    border-top: 1px solid var(--line-soft);
+    padding-top: 32px;
+  }
+  .disclosure-full h2 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    margin-bottom: 10px;
+    letter-spacing: -0.005em;
+  }
+  .disclosure-full p {
+    color: var(--paper-dim);
+    font-size: 0.88rem;
+    max-width: 66ch;
+  }
+
+  footer {
+    border-top: 1px solid var(--line-soft);
+    padding: 22px 24px;
+    text-align: center;
+    color: var(--paper-faint);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+  }
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<div class="disclosure-banner">
+  <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/>
+    <path d="M8 7.2V11.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <circle cx="8" cy="4.8" r="0.9" fill="currentColor"/>
+  </svg>
+  As an affiliate, we earn from qualifying purchases at no extra cost to you. <a href="#disclosure">Learn more</a>.
+</div>
+
+<header class="site-header">
+  <div class="brand">
+    <span class="brand-mark">LOAD<span>OUT</span></span>
+    <span class="brand-tagline">Gear we actually use</span>
+  </div>
+  <nav class="top-nav" aria-label="Primary">
+    <a href="#main-content">Gear</a>
+    <a href="#disclosure">Disclosure</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <canvas id="signal-canvas" aria-hidden="true"></canvas>
+  <div class="hero-bracket tl" aria-hidden="true"></div>
+  <div class="hero-bracket tr" aria-hidden="true"></div>
+  <div class="hero-bracket bl" aria-hidden="true"></div>
+  <div class="hero-bracket br" aria-hidden="true"></div>
+  <div class="hero-content">
+    <h1>Streaming and gaming setups, picked by someone who streams.</h1>
+    <p>Every item below is gear on our own desk, filterable by category. Each one also lists a more affordable alternative for anyone building a setup on a budget.</p>
+  </div>
+</section>
+
+<main id="main-content">
+  <div class="filter-bar" role="group" aria-label="Filter gear by category">
+    <button class="filter-btn" data-filter="all" aria-pressed="true">All</button>
+    <button class="filter-btn" data-filter="audio" aria-pressed="false" style="--dot: var(--cat-audio)"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5V8a5 5 0 0 1 10 0v1.5"/><rect x="2" y="9" width="2.6" height="4" rx="1"/><rect x="11.4" y="9" width="2.6" height="4" rx="1"/></svg>Audio</button>
+    <button class="filter-btn" data-filter="video" aria-pressed="false" style="--dot: var(--cat-video)"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4.5" width="8.5" height="7" rx="1.4"/><path d="M10.5 7.2 14 5.4v5.2l-3.5-1.8"/></svg>Video</button>
+    <button class="filter-btn" data-filter="lighting" aria-pressed="false" style="--dot: var(--cat-lighting)"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2a4.2 4.2 0 0 1 2.4 7.6c-.5.4-.8 1-.8 1.6v.3H6.4v-.3c0-.6-.3-1.2-.8-1.6A4.2 4.2 0 0 1 8 2Z"/><path d="M6.5 13.5h3M7 15h2"/></svg>Lighting</button>
+    <button class="filter-btn" data-filter="peripherals" aria-pressed="false" style="--dot: var(--cat-peripherals)"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.5" y="4.5" width="13" height="7.5" rx="1.4"/><path d="M4 7.5h.01M6.5 7.5h.01M9 7.5h.01M11.5 7.5h.01M5 10h6"/></svg>Peripherals</button>
+    <button class="filter-btn" data-filter="desk" aria-pressed="false" style="--dot: var(--cat-desk)"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="9" height="6.5" rx="1.2"/><path d="M6.5 9.5V12M4.5 13.5h4M11 5.5h3M14 5.5v3"/></svg>Desk</button>
+  </div>
+
+  <p class="results-count" id="results-count" aria-live="polite"></p>
+
+  <div class="gear-grid" id="gear-grid"></div>
+  <p class="no-results" id="no-results" hidden>No gear in this category yet.</p>
+</main>
+
+<section class="disclosure-full" id="disclosure">
+  <h2>Affiliate Disclosure</h2>
+  <p>
+    LOADOUT participates in affiliate programs, including Amazon Associates and other retailer/brand partner programs.
+    This means we may earn a commission when you click a link and make a qualifying purchase — at no additional cost to you.
+    Every "Stream-Tested" item on this page is gear we personally own and use on our own stream. The "Budget pick" listed
+    under each item is a lower-cost alternative we have not personally tested — it's included based on published specs and
+    review consensus, not hands-on use. Prices and availability are set by the retailer and may change after publication.
+  </p>
+</section>
+
+<footer>
+  &copy; 2026 LOADOUT. This is a demo storefront — no purchases are processed on this page.
+</footer>
+
+<script>
+  const products = [
+    { name: "SteelSeries Arctis Nova Pro Wireless", cat: "audio", spec: "Dual hot-swap batteries, ClearCast Gen2 mic, active noise cancellation", price: "$349.99", tested: true, url: "#",
+      alt: { name: "SteelSeries Arctis Nova 7 Wireless", price: "$199.99", note: "no hot-swap battery, no ANC" } },
+    { name: "Shure SM7dB", cat: "audio", spec: "Dynamic cardioid mic, built-in +18/+28dB switchable preamp gain", price: "$499.00", tested: true, url: "#",
+      alt: { name: "Shure MV7+", price: "$249.00", note: "less studio pedigree, weaker preamp gain" } },
+    { name: "RØDECaster Pro II", cat: "audio", spec: "4 Neutrik combo inputs, 5.5\" touchscreen, onboard multitrack recording", price: "$699.00", tested: true, url: "#",
+      alt: { name: "Tascam Mixcast 4", price: "$499.00", note: "less refined touchscreen & software" } },
+    { name: "RØDE PSA1+", cat: "audio", spec: "Parallelogram spring arm, internal cable routing, 360° rotation", price: "$139.00", tested: true, url: "#",
+      alt: { name: "Neewer Boom Arm", price: "$19.99", note: "weaker spring, sags under heavy mics" } },
+    { name: "Elgato Facecam 4K", cat: "video", spec: "Sony 1/1.8\" sensor, 4K60 capture, 90° FOV, full manual controls", price: "$199.99", tested: true, url: "#",
+      alt: { name: "Logitech C920", price: "$79.99", note: "1080p30 only, weaker low light" } },
+    { name: "EMEET PIXY Dual-Camera 4K", cat: "video", spec: "Dual-lens PTZ webcam, AI auto pan/tilt/zoom framing, 4K primary sensor", price: "$159.99", tested: true, url: "#",
+      alt: { name: "Logitech C920", price: "$79.99", note: "no auto-tracking, 1080p only" } },
+    { name: "Elgato Game Capture 4K Pro", cat: "video", spec: "Internal PCIe card, HDMI 2.1, 8K60 passthrough, 4K60 HDR10 capture", price: "$299.99", tested: true, url: "#",
+      alt: { name: "Elgato HD60 X", price: "$179.99", note: "external USB, capped at 1080p60" } },
+    { name: "UBeesize 10\" Key Light", cat: "lighting", spec: "10\" panel, ~39\" articulating arm, adjustable brightness & color temp", price: "~$60 (varies by retailer)", tested: true, url: "#",
+      alt: { name: "Neewer Mini LED Panel", price: "$24.99", note: "less even diffusion, flimsier arm" } },
+    { name: "Drop Shift V2", cat: "peripherals", spec: "1800-compact aluminum case, Holy Panda X Clear switches, hot-swap PCB", price: "$250.00", tested: true, url: "#",
+      alt: { name: "Keychron K2 Pro", price: "$105.00", note: "plastic case, lighter-feeling sound" } },
+    { name: "Elgato Stream Deck XL", cat: "peripherals", spec: "8×4 grid, 32 customizable LCD keys, folders & multi-actions", price: "$249.99", tested: true, url: "#",
+      alt: { name: "Elgato Stream Deck MK.2", price: "$149.99", note: "15 keys instead of 32, more folder-diving" } },
+    { name: "ARES WING Dual Monitor Arm", cat: "desk", spec: "Gas-spring full-motion arm, up to 44lb capacity, integrated USB-A/C charging", price: "Check current price", tested: true, url: "#",
+      alt: { name: "HUANUO HNDS12", price: "$49.99", note: "~26lb capacity, no charging ports" } },
+  ];
+
+  const categoryColors = {
+    audio: "var(--cat-audio)",
+    video: "var(--cat-video)",
+    lighting: "var(--cat-lighting)",
+    peripherals: "var(--cat-peripherals)",
+    desk: "var(--cat-desk)",
+  };
+
+  const iconAttrs = 'viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
+  const categoryIcons = {
+    audio: `<svg ${iconAttrs}><path d="M3 9.5V8a5 5 0 0 1 10 0v1.5"/><rect x="2" y="9" width="2.6" height="4" rx="1"/><rect x="11.4" y="9" width="2.6" height="4" rx="1"/></svg>`,
+    video: `<svg ${iconAttrs}><rect x="2" y="4.5" width="8.5" height="7" rx="1.4"/><path d="M10.5 7.2 14 5.4v5.2l-3.5-1.8"/></svg>`,
+    lighting: `<svg ${iconAttrs}><path d="M8 2a4.2 4.2 0 0 1 2.4 7.6c-.5.4-.8 1-.8 1.6v.3H6.4v-.3c0-.6-.3-1.2-.8-1.6A4.2 4.2 0 0 1 8 2Z"/><path d="M6.5 13.5h3M7 15h2"/></svg>`,
+    peripherals: `<svg ${iconAttrs}><rect x="1.5" y="4.5" width="13" height="7.5" rx="1.4"/><path d="M4 7.5h.01M6.5 7.5h.01M9 7.5h.01M11.5 7.5h.01M5 10h6"/></svg>`,
+    desk: `<svg ${iconAttrs}><rect x="2" y="3" width="9" height="6.5" rx="1.2"/><path d="M6.5 9.5V12M4.5 13.5h4M11 5.5h3M14 5.5v3"/></svg>`,
+  };
+
+  const grid = document.getElementById("gear-grid");
+  const noResults = document.getElementById("no-results");
+  const resultsCount = document.getElementById("results-count");
+  const buttons = document.querySelectorAll(".filter-btn");
+
+  function renderCard(p, index) {
+    const card = document.createElement("article");
+    card.className = "card";
+    card.style.setProperty("--accent-cat", categoryColors[p.cat]);
+    card.style.animationDelay = `${Math.min(index, 10) * 25}ms`;
+    card.innerHTML = `
+      <div class="card-top">
+        <span class="card-cat">${categoryIcons[p.cat]}${p.cat}</span>
+        ${p.tested ? '<span class="badge">&check; Stream-Tested</span>' : ""}
+      </div>
+      <h3 class="card-name">${p.name}</h3>
+      <p class="card-spec">${p.spec}</p>
+      <div class="card-bottom">
+        <span class="card-price">${p.price}</span>
+        <a class="card-link" href="${p.url}" rel="sponsored noopener" target="_blank">View deal</a>
+      </div>
+      ${p.alt ? `
+      <div class="card-alt">
+        <div class="alt-row">
+          <span class="badge budget">$ Budget Pick</span>
+          <span class="alt-price">${p.alt.price}</span>
+        </div>
+        <a class="alt-link" href="${p.alt.url || '#'}" rel="sponsored noopener" target="_blank">${p.alt.name} →</a>
+        <p class="alt-note">Trade-off: ${p.alt.note}</p>
+      </div>` : ""}
+    `;
+    return card;
+  }
+
+  function render(filter) {
+    grid.innerHTML = "";
+    const items = filter === "all" ? products : products.filter(p => p.cat === filter);
+    items.forEach((p, i) => grid.appendChild(renderCard(p, i)));
+    noResults.hidden = items.length !== 0;
+    resultsCount.textContent = `Showing ${items.length} item${items.length === 1 ? "" : "s"}`;
+  }
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      buttons.forEach(b => b.setAttribute("aria-pressed", "false"));
+      btn.setAttribute("aria-pressed", "true");
+      render(btn.dataset.filter);
+    });
+  });
+
+  render("all");
+
+  /* Ambient signal-bar canvas behind the hero — reads as an audio/broadcast
+     waveform, on-theme for a streaming gear site. Freezes on a single frame
+     when the visitor prefers reduced motion. */
+  (function () {
+    const canvas = document.getElementById("signal-canvas");
+    const ctx = canvas.getContext("2d");
+    const hero = canvas.closest(".hero");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const barCount = 42;
+    let w, h, dpr;
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = hero.clientWidth;
+      h = hero.clientHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, w, h);
+      const barWidth = w / barCount;
+      for (let i = 0; i < barCount; i++) {
+        const phase = i * 0.4;
+        const amp = 0.15 + 0.85 * Math.abs(Math.sin(t * 0.0009 + phase));
+        const barH = amp * h * 0.42;
+        const isPeak = i % 7 === 3;
+        ctx.fillStyle = isPeak ? "rgba(61, 220, 151, 0.55)" : "rgba(124, 92, 255, 0.45)";
+        ctx.fillRect(i * barWidth + barWidth * 0.2, h - barH, barWidth * 0.6, barH);
+      }
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    if (reduceMotion) {
+      draw(1400);
+    } else {
+      requestAnimationFrame(function loop(t) {
+        draw(t);
+        requestAnimationFrame(loop);
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
