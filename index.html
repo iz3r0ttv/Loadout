@@ -656,7 +656,10 @@
   const grid = document.getElementById("gear-grid");
   const noResults = document.getElementById("no-results");
   const resultsCount = document.getElementById("results-count");
-  const buttons = document.querySelectorAll(".filter-btn");
+  // button.filter-btn (not just .filter-btn) so the "Merch" link — same
+  // pill styling, but a real <a> to an external site with no data-filter —
+  // never gets wired into the filter click-handling loop below.
+  const buttons = document.querySelectorAll("button.filter-btn");
 
   const AFFILIATE_TAG = "z3r0sloadout-20";
   function amazonLink(item) {
